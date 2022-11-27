@@ -276,7 +276,11 @@ func defaultTarget(goos, goarch, triple string) (*TargetSpec, error) {
 		}
 	case "arm64":
 		spec.CPU = "generic"
-		spec.Features = "+neon"
+		if goos == "darwin" {
+			spec.Features = "+neon"
+		} else { // windows, linux
+			spec.Features = "+neon,-fmv"
+		}
 	}
 	if goos == "darwin" {
 		spec.Linker = "ld.lld"
