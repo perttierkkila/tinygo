@@ -373,6 +373,9 @@ func (spi SPI) configurePins(config SPIConfig) {
 // Since the first interface is named I2C1, both I2C0 and I2C1 refer to I2C1.
 // TODO: implement I2C2.
 
+// check for ensuring we fulfill interface
+var _ i2cController = (*I2C)(nil)
+
 type I2C struct {
 	Bus *stm32.I2C_Type
 }

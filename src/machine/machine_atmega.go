@@ -9,6 +9,9 @@ import (
 	"unsafe"
 )
 
+// check for ensuring we fulfill interface
+var _ i2cController = (*I2C)(nil)
+
 // I2C on AVR.
 type I2C struct {
 }
@@ -43,6 +46,12 @@ func (i2c *I2C) Configure(config I2CConfig) error {
 	// Enable twi module.
 	avr.TWCR.Set(avr.TWCR_TWEN)
 
+	return nil
+}
+
+// SetBaudRate sets the communication speed for I2C.
+func (i2c *I2C) SetBaudRate(br uint32) error {
+	// TODO: implement
 	return nil
 }
 

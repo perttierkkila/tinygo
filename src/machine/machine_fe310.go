@@ -210,6 +210,9 @@ func (spi SPI) Transfer(w byte) (byte, error) {
 	return byte(data), nil
 }
 
+// check for ensuring we fulfill interface
+var _ i2cController = (*I2C)(nil)
+
 // I2C on the FE310-G002.
 type I2C struct {
 	Bus sifive.I2C_Type
@@ -253,6 +256,12 @@ func (i2c *I2C) Configure(config I2CConfig) error {
 	config.SDA.Configure(PinConfig{Mode: PinI2C})
 	config.SCL.Configure(PinConfig{Mode: PinI2C})
 
+	return nil
+}
+
+// SetBaudRate sets the communication speed for I2C.
+func (i2c *I2C) SetBaudRate(br uint32) error {
+	// TODO: implement
 	return nil
 }
 

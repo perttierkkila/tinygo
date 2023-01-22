@@ -38,6 +38,9 @@ const (
 	I2C_GENERATE_STOP        = 0x80000000 | stm32.I2C_CR2_STOP
 )
 
+// check for ensuring we fulfill interface
+var _ i2cController = (*I2C)(nil)
+
 type I2C struct {
 	Bus             *stm32.I2C_Type
 	AltFuncSelector uint8
@@ -81,6 +84,12 @@ func (i2c *I2C) Configure(config I2CConfig) error {
 	// Disable Generalcall and NoStretch, Enable peripheral
 	i2c.Bus.CR1.Set(stm32.I2C_CR1_PE)
 
+	return nil
+}
+
+// SetBaudRate sets the communication speed for I2C.
+func (i2c *I2C) SetBaudRate(br uint32) error {
+	// TODO: implement
 	return nil
 }
 

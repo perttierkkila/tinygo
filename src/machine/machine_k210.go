@@ -500,6 +500,9 @@ func (spi SPI) Transfer(w byte) (byte, error) {
 	return byte(spi.Bus.DR0.Get()), nil
 }
 
+// check for ensuring we fulfill interface
+var _ i2cController = (*I2C)(nil)
+
 // I2C on the K210.
 type I2C struct {
 	Bus kendryte.I2C_Type
@@ -576,6 +579,12 @@ func (i2c *I2C) Configure(config I2CConfig) error {
 	i2c.Bus.DMA_RDLR.Set(0)
 	i2c.Bus.DMA_TDLR.Set(0x4)
 
+	return nil
+}
+
+// SetBaudRate sets the communication speed for I2C.
+func (i2c *I2C) SetBaudRate(br uint32) error {
+	// TODO: implement
 	return nil
 }
 

@@ -51,6 +51,9 @@ type I2CConfig struct {
 	Mode     I2CMode
 }
 
+// check for ensuring we fulfill interface
+var _ i2cController = (*I2C)(nil)
+
 type I2C struct {
 	Bus          *rp.I2C0_Type
 	mode         I2CMode

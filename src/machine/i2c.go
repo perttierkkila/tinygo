@@ -6,6 +6,15 @@ import (
 	"errors"
 )
 
+// i2cController interface defines what is required to provide a i2c controller.
+// It is primarily to provide compile time checking when adding a new i2c
+// implementation.
+type i2cController interface {
+	//	Configure(config I2CConfig)
+	Tx(addr uint16, w, r []byte) error
+	SetBaudRate(br uint32) error
+}
+
 // TWI_FREQ is the I2C bus speed. Normally either 100 kHz, or 400 kHz for high-speed bus.
 //
 // Deprecated: use 100 * machine.KHz or 400 * machine.KHz instead.

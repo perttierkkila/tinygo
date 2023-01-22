@@ -28,6 +28,9 @@ type I2CConfig struct {
 	SCL       Pin
 }
 
+// TODO: check for ensuring we fulfill interface
+// var _ i2cController = (*I2C)(nil)
+
 type I2C struct {
 	Bus *nxp.LPI2C_Type
 
@@ -169,6 +172,12 @@ func (i2c *I2C) Configure(config I2CConfig) {
 
 	// reset clock and registers, and enable LPI2C module interface
 	i2c.reset(freq)
+}
+
+// SetBaudRate sets the communication speed for I2C.
+func (i2c I2C) SetBaudRate(br uint32) error {
+	// TODO: implement
+	return nil
 }
 
 func (i2c I2C) Tx(addr uint16, w, r []byte) error {

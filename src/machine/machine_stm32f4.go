@@ -718,6 +718,9 @@ func (spi SPI) getBaudRate(config SPIConfig) uint32 {
 
 // -- I2C ----------------------------------------------------------------------
 
+// check for ensuring we fulfill interface
+var _ i2cController = (*I2C)(nil)
+
 type I2C struct {
 	Bus             *stm32.I2C_Type
 	AltFuncSelector uint8

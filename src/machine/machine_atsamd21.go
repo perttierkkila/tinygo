@@ -642,6 +642,9 @@ func (uart *UART) handleInterrupt(interrupt.Interrupt) {
 	uart.Bus.INTFLAG.SetBits(sam.SERCOM_USART_INTFLAG_RXC)
 }
 
+// check for ensuring we fulfill interface
+var _ i2cController = (*I2C)(nil)
+
 // I2C on the SAMD21.
 type I2C struct {
 	Bus    *sam.SERCOM_I2CM_Type
@@ -730,12 +733,13 @@ func (i2c *I2C) Configure(config I2CConfig) error {
 	return nil
 }
 
-// SetBaudRate sets the communication speed for the I2C.
-func (i2c *I2C) SetBaudRate(br uint32) {
+// SetBaudRate sets the communication speed for I2C.
+func (i2c *I2C) SetBaudRate(br uint32) error {
 	// Synchronous arithmetic baudrate, via Arduino SAMD implementation:
 	// SystemCoreClock / ( 2 * baudrate) - 5 - (((SystemCoreClock / 1000000) * WIRE_RISE_TIME_NANOSECONDS) / (2 * 1000));
 	baud := CPUFrequency()/(2*br) - 5 - (((CPUFrequency() / 1000000) * riseTimeNanoseconds) / (2 * 1000))
 	i2c.Bus.BAUD.Set(baud)
+	return nil
 }
 
 // Tx does a single I2C transaction at the specified address.
