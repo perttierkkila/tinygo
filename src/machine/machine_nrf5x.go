@@ -4,6 +4,9 @@ package machine
 
 import "device/nrf"
 
+// check for ensuring we fulfill interface
+var _ i2cController = (*I2C)(nil)
+
 // I2C on the NRF51 and NRF52.
 type I2C struct {
 	Bus  *nrf.TWI_Type
@@ -26,6 +29,15 @@ func (i2c *I2C) enableAsTarget() {
 
 func (i2c *I2C) disable() {
 	i2c.Bus.ENABLE.Set(0)
+}
+
+// SetBaudRate sets the I2C frequency. It has the side effect of also
+// enabling the I2C hardware if disabled beforehand.
+//
+//go:inline
+func (i2c *I2C) SetBaudRate(br uint32) error {
+	// TODO: implement
+	return nil
 }
 
 // Tx does a single I2C transaction at the specified address.
